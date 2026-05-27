@@ -1,5 +1,67 @@
-html,
-body {
-    margin: 0;
-    padding: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+        :root {
+            --color-sage-50: #F7FBF9;
+            --color-sage-100: #ECFDF5;
+            --color-sage-900: #064E3B;
+            --color-sand: #FDF8F6;
+            --color-charcoal: #374151;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--color-sand);
+            color: var(--color-charcoal);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-sand);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D1FAE5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6EE7B7;
+        }
+    
