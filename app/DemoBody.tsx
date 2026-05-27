@@ -4,13 +4,21 @@ import { useEffect } from 'react';
 import SeojackCredit from './SeojackCredit';
 import { STYLE_CSS, BODY_HTML, INLINE_JS, FONT_LINKS, EXTERNAL_SCRIPTS, BODY_CLASS } from './content';
 
-// Make addEventListener('DOMContentLoaded') fire immediately (DOM is already
-// ready when this runs on mount), and isolate failures.
+// The DOM is already loaded when this runs on mount, so init code gated on
+// 'DOMContentLoaded' / window 'load' / window.onload would never fire. Patch
+// those to run immediately (and flush an existing window.onload after), and
+// isolate failures so one broken handler can't blank the page.
 const JS_PREFIX =
-    "(function(){var __a=document.addEventListener.bind(document);" +
-    "document.addEventListener=function(t,f,o){if(t==='DOMContentLoaded'){try{f();}catch(e){console.error(e);}return;}return __a(t,f,o);};" +
+    "(function(){" +
+    "var __da=document.addEventListener.bind(document);" +
+    "document.addEventListener=function(t,f,o){if(t==='DOMContentLoaded'){try{f();}catch(e){console.error(e);}return;}return __da(t,f,o);};" +
+    "var __wa=window.addEventListener.bind(window);" +
+    "window.addEventListener=function(t,f,o){if(t==='load'||t==='DOMContentLoaded'){try{f();}catch(e){console.error(e);}return;}return __wa(t,f,o);};" +
     "try{";
-const JS_SUFFIX = "}catch(e){console.error('[template]',e);}})();";
+const JS_SUFFIX =
+    "}catch(e){console.error('[template]',e);}" +
+    "try{if(typeof window.onload==='function'){window.onload();}}catch(e){console.error(e);}" +
+    "})();";
 
 export default function DemoBody() {
     useEffect(() => {
